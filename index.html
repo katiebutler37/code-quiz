@@ -4,9 +4,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./assets/css/style.css" rel="stylesheet" />
     <title>Code Quiz</title>
 </head>
 <body>
-    
+    <header>
+        <h3>View high scores</h3>
+        <h4> Time: <span id="countdown"></span></h4>
+    </header>
+    <section>
+        <div class="card">
+            <div class="quiz-intro">
+                <h1>
+                    Quiz Title
+                </h1>
+                <p>
+                    Quiz Description
+                </p>
+                <button id="start-btn" class="start-btn btn">Start Quiz</button>
+            </div>
+            <div id="question-container" class="hide">
+                <h2 id="question">Question</h2>
+            </div id="answers" class="answer-btn btn">
+            <ol>
+                <li>
+                    <button class="btn">
+                        Answer 1
+                    </button>
+                </li>
+                <li>
+                    <button class="btn">
+                        Answer 2
+                    </button>
+                </li>
+                <li>
+                    <button class="btn">
+                        Answer 3
+                    </button>
+                </li>
+                <li>
+                    <button class="btn">
+                        Answer 4
+                    </button>
+                </li>
+            </ol>
+        </div>    
+    </section>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
