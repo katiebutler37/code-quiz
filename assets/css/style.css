@@ -18,7 +18,22 @@ body {
 }
 
 header {
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 20px 0 20px;
+}
+
+header h3 {
+    color: var(--secondary-colour);
+    font-weight: lighter;
+}
+
+header h3:hover {
+    color: var(--tertiary-color);
+}
+
+header h4 {
+    color: rgb(105, 105, 105);
 }
 
 section {
@@ -31,20 +46,28 @@ section {
     background-color: white;
     width: 700px;
     max-width: 80%;
-    height: 700px;
+    height: 500px;
     max-height: 80%;
     border-radius: 5px;
     padding: 15px; 
     box-shadow: 0 0 1px;
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 .card-content {
     width: 50%;
-
+    margin-top: 100px;
 }
+
+.quiz-intro {
+    display: block;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    /* later will dynamically change to display: none; with javascript by adding className hide to elements*/
+}
+
 .btn {
     width: max-content;
     border-radius: 5px;
@@ -54,6 +77,12 @@ section {
     padding: 10px;
 }
 
+#start-btn {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 15px;
+}
+
 .btn:hover {
     background-color: var(--tertiary-color);
 }
@@ -61,4 +90,9 @@ section {
 .answer-btn {
     display: block;
     margin: 10px; 
+    width: 100%;
+}
+
+.hide {
+    display: none;
 }
