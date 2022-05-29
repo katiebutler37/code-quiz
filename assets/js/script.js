@@ -41,7 +41,6 @@ var startGame = function() {
     quizIntroEl.classList.add("hide");
     randomizedQuestionSet = questions.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
-    console.log(randomizedQuestionSet);
     currentQuestionIndex++;
     questionContainerEl.classList.remove("hide");
     nextQuestion();
@@ -61,12 +60,15 @@ var nextQuestion = function() {
     }*/
 };
 
-var selectAnswer = function() {
-    if 
-nextQuestion();
-}
+var selectAnswer = function(event) {
+    var selectedAnswer = event.target.value;
+    if (selectedAnswer.matches(questions[currentQuestionIndex].answers.correct)) {
+        console.log("correct");
+        nextQuestion();
+    }
+};
+
+answerButtonEl.addEventListener("click", selectAnswer); 
 
 //call startGame function on click
 startButtonEl.addEventListener("click", startGame);
-
-answerButtonEl.addEventListener("click", selectAnswer)
