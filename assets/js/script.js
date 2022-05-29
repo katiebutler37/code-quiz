@@ -2,7 +2,9 @@
 var startButtonEl = document.querySelector("#start-btn");
 var quizIntroEl = document.querySelector(".quiz-intro");
 var questionContainerEl = document.querySelector("#question-container");
-var questionIndex;
+var currentQuestionIndex;
+var randomizedQuestions;
+var randomizedAnswers;
 
 //make an array to hold each question and answer together
 var questions = [
@@ -19,18 +21,13 @@ var questions = [
     {
         question: "what's up?",
         answers: [
-            { answer: "5"},
-            { answer: "6"},
-            { answer: "7"},
-            { answer: "8"}
+            { answer: "5", correct: true },
+            { answer: "6", correct: false },
+            { answer: "7", correct: false },
+            { answer: "8", correct: false }
         ]
     }
 ];
-
-for (var i = 0; i < questions.length; i++) {
-     var randomizedQuestions = questions.sort(() => Math.random() - .5);
-}
-console.log(questions[0].question);
 
 var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
@@ -38,7 +35,9 @@ var answersEl = document.querySelector("#answers");
 //defined function to start game, that will lead to first question on click
 var startGame = function() {
     quizIntroEl.classList.add("hide");
-    //questionIndex = 0;
+    randomizedQuestions = questions.sort(() => Math.random() - .5);
+    currentQuestionIndex = 0;
+    currentQuestionIndex++;
     questionContainerEl.classList.remove("hide");
     nextQuestion();
 };
@@ -49,8 +48,12 @@ var showQuestion = function(questionObj) {
 };
 
 var nextQuestion = function() {
-    showQuestion(randomizedQuestions[0]);
-}
+    showQuestion(randomizedQuestions[currentQuestionIndex]);
+    for (var i=0; i<questions[currentQuestionIndex].answers.length; i++) {
+        randomizedAnswers = questions[currentQuestionIndex].answers[Math.floor(Math.random() * answers.length)];
+        console.log(answer);
+    }
+};
 
 var selectAnswer = function() {
 
