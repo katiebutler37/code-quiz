@@ -32,6 +32,10 @@ var questions = [
 var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
 
+var clearAnswers = function() {
+    document.querySelector("#answers").innerHTML = "";
+};
+
 //defined function to start game, that will lead to first question on click
 var startGame = function() {
     quizIntroEl.classList.add("hide");
@@ -45,8 +49,8 @@ var startGame = function() {
 var nextQuestion = function() {
     console.log(currentQuestionIndex);
     var questionObj = randomizedQuestionSet[currentQuestionIndex];
-    questionContainerEl = "";
     questionEl.textContent = questionObj.question;
+    clearAnswers();
     for (var i=0; i < questionObj.answers.length; i++) {
         //var randomizedAnswers = questionsObj.answers[Math.floor(Math.random() * questionObj.answers.length)];
         answerButtonEl = document.createElement("button");
@@ -68,11 +72,10 @@ var selectAnswer = function(event) {
         console.log("correct");  
         nextQuestion();
     }
-    else {
+    else if (selectedAnswer)
         nextQuestion();
     }
     
-}
 
 //call startGame function on click
 startButtonEl.addEventListener("click", startGame);
