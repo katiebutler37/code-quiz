@@ -26,6 +26,36 @@ var questions = [
         //make an inner array to hold the 4 possible answers
         answers: ["9", "10", "11", "12"],
         correct: "1"
+    },
+    {
+        question: "who?",
+        //make an inner array to hold the 4 possible answers
+        answers: ["1", "2", "3", "4"],
+        correct: "1"
+    },
+    {
+        question: "why?",
+        //make an inner array to hold the 4 possible answers
+        answers: ["1", "2", "3", "4"],
+        correct: "1"
+    },
+    {
+        question: "when?",
+        //make an inner array to hold the 4 possible answers
+        answers: ["1", "2", "3", "4"],
+        correct: "1"
+    },
+    {
+        question: "where?",
+        //make an inner array to hold the 4 possible answers
+        answers: ["1", "2", "3", "4"],
+        correct: "1"
+    },
+    {
+        question: "what?",
+        //make an inner array to hold the 4 possible answers
+        answers: ["1", "2", "3", "4"],
+        correct: "1"
     }
 ];
 
@@ -63,18 +93,28 @@ var nextQuestion = function() {
         currentQuestionIndex++;
 };
 
+var endQuiz = function() {
+    questionContainerEl.classList.add("hide");
+}
+
 var selectAnswer = function(event) {
     var selectedAnswer = event.target.value;
     //eliminate repetition later if possible
     var questionObj = randomizedQuestionSet[currentQuestionIndex];
-   // var questionObj = randomizedQuestionSet[currentQuestionIndex];
-    if (selectedAnswer === questionObj.correct) {
+   
+   // var questionObj = randomizedQuestionSet[currentQuestionIndex]; 
+    if (randomizedQuestionSet.length < currentQuestionIndex + 1) {
+        console.log(currentQuestionIndex);
+        endQuiz();
+    }
+    else if (selectedAnswer === questionObj.correct) {
         console.log("correct");  
         nextQuestion();
     }
-    else if (selectedAnswer)
+    else if (selectedAnswer) {
         nextQuestion();
-    }
+    };
+    };
     
 
 //call startGame function on click
