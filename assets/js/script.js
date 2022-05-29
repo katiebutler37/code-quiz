@@ -15,6 +15,15 @@ var questions = [
             { answer: "3", correct: false },
             { answer: "4", correct: false }
         ]
+    },
+    {
+        question: "what's up?",
+        answers: [
+            { answer: "5"},
+            { answer: "6"},
+            { answer: "7"},
+            { answer: "8"}
+        ]
     }
 ];
 
@@ -29,7 +38,7 @@ var answersEl = document.querySelector("#answers");
 //defined function to start game, that will lead to first question on click
 var startGame = function() {
     quizIntroEl.classList.add("hide");
-    questionIndex = 0;
+    //questionIndex = 0;
     questionContainerEl.classList.remove("hide");
     nextQuestion();
 };
@@ -40,7 +49,7 @@ var showQuestion = function(questionObj) {
 };
 
 var nextQuestion = function() {
-    showQuestion(randomizedQuestions[questionIndex]);
+    showQuestion(randomizedQuestions[0]);
 }
 
 var selectAnswer = function() {
