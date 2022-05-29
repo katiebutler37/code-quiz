@@ -55,8 +55,8 @@ var nextQuestion = function() {
         answerButtonEl.textContent = questionObj.answers[i]; 
         answerButtonEl.addEventListener("click", selectAnswer);
         answersEl.appendChild(answerButtonEl);
-        currentQuestionIndex++;
     }
+        currentQuestionIndex++;
 };
 
 var selectAnswer = function(event) {
