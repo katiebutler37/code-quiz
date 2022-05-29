@@ -37,13 +37,13 @@ var startGame = function() {
     quizIntroEl.classList.add("hide");
     randomizedQuestionSet = questions.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
-    currentQuestionIndex++;
     questionContainerEl.classList.remove("hide");
     nextQuestion();
 };
 
 //the questionObj parameter is the result of (randomizedQuestionSet[questionIndex]) ... the single object question (question/answers pair) that is provided to the nextQuestion function
 var nextQuestion = function() {
+    console.log(currentQuestionIndex);
     var questionObj = randomizedQuestionSet[currentQuestionIndex];
     questionContainerEl = "";
     questionEl.textContent = questionObj.question;
@@ -55,7 +55,7 @@ var nextQuestion = function() {
         answerButtonEl.textContent = questionObj.answers[i]; 
         answerButtonEl.addEventListener("click", selectAnswer);
         answersEl.appendChild(answerButtonEl);
-        
+        currentQuestionIndex++;
     }
 };
 
@@ -66,6 +66,10 @@ var selectAnswer = function(event) {
    // var questionObj = randomizedQuestionSet[currentQuestionIndex];
     if (selectedAnswer === questionObj.correct) {
         console.log("correct");  
+        nextQuestion();
+    }
+    else {
+        nextQuestion();
     }
     
 }
