@@ -2,10 +2,9 @@
 var startButtonEl = document.querySelector("#start-btn");
 var quizIntroEl = document.querySelector(".quiz-intro");
 var questionContainerEl = document.querySelector("#question-container");
+var answerButtonEl;
 var currentQuestionIndex;
-    currentQuestionIndex++;
 var randomizedQuestionSet;
-//var randomizedAnswers;
 var answerButtonEl;
 
 //make an array to hold each question and answer together
@@ -19,7 +18,13 @@ var questions = [
     {
         question: "whats up?",
         //make an inner array to hold the 4 possible answers
-        answers: ["1", "2", "3", "4"],
+        answers: ["5", "6", "7", "8"],
+        correct: "1"
+    },
+    {
+        question: "whats your name?",
+        //make an inner array to hold the 4 possible answers
+        answers: ["9", "10", "11", "12"],
         correct: "1"
     }
 ];
@@ -37,37 +42,33 @@ var startGame = function() {
     nextQuestion();
 };
 
-//the questionObj parameter is the result of (randomizedQuestionSet[questionIndex]) ... the single object question (question/answers pair) that is provided to the showQuestion function from the nextQuestion function
+//the questionObj parameter is the result of (randomizedQuestionSet[questionIndex]) ... the single object question (question/answers pair) that is provided to the nextQuestion function
 var nextQuestion = function() {
     var questionObj = randomizedQuestionSet[currentQuestionIndex];
     questionContainerEl = "";
     questionEl.textContent = questionObj.question;
     for (var i=0; i < questionObj.answers.length; i++) {
+        //var randomizedAnswers = questionsObj.answers[Math.floor(Math.random() * questionObj.answers.length)];
         answerButtonEl = document.createElement("button");
         answerButtonEl.className = "answer-btn btn";
         answerButtonEl.setAttribute("value", questionObj.answers[i]);
         answerButtonEl.textContent = questionObj.answers[i]; 
+        answerButtonEl.addEventListener("click", selectAnswer);
         answersEl.appendChild(answerButtonEl);
+        
     }
 };
 
-//var nextQuestion = function() {
-    //showQuestion(randomizedQuestionSet[currentQuestionIndex]);
-    /*for (var i=0; i<questions[currentQuestionIndex].answers.length; i++) {
-        randomizedAnswers = questions[currentQuestionIndex].answers[Math.floor(Math.random() * questions[currentQuestionIndex].answers.length)];
-        console.log(randomizedAnswers);
-    }*/
-//};
-
-/*var selectAnswer = function(event) {
+var selectAnswer = function(event) {
     var selectedAnswer = event.target.value;
-    if (selectedAnswer.matches(questions[currentQuestionIndex].answers.correct)) {
-        console.log("correct");
+    //eliminate repetition later if possible
+    var questionObj = randomizedQuestionSet[currentQuestionIndex];
+   // var questionObj = randomizedQuestionSet[currentQuestionIndex];
+    if (selectedAnswer === questionObj.correct) {
+        console.log("correct");  
     }
-    nextQuestion();
-};*/
-
-//answerButtonEl.addEventListener("click", nextQuestion); 
+    
+}
 
 //call startGame function on click
 startButtonEl.addEventListener("click", startGame);
