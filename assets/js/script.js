@@ -9,6 +9,7 @@ var answerButtonEl;
 var viewHighScoresEl = document.querySelector("#high-scores");
 var feedbackEl = document.querySelector(".feedback");
 var cardContentEl = document.querySelector(".card-content");
+var countdownEl = document.querySelector("#countdown");
 
 //make an array to hold each question and answer together
 var questions = [
@@ -78,11 +79,38 @@ var startGame = function() {
     nextQuestion();
 };
 
+// var finalQuestion = function(event) {
+//     var selectedAnswer = event.target;
+//     var questionObj = randomizedQuestionSet[currentQuestionIndex];
+//         if (selectedAnswer.value == questionObj.correct) {
+//         console.log("correct"); 
+//         selectedAnswer.style.backgroundColor="green";
+//         feedbackEl.textContent = "";
+//         feedbackEl = document.createElement("h3");
+//         feedbackEl.className = "feedback correct";
+//         feedbackEl.textContent = "You got it!"; 
+//         cardContentEl.appendChild(feedbackEl);
+//         setTimeout(endQuiz, 500);
+//     }
+//     else {
+//         console.log("wrong"); 
+//         selectedAnswer.style.backgroundColor="red";
+//         feedbackEl.textContent = "";
+//         feedbackEl = document.createElement("h3");
+//         feedbackEl.className = "feedback";
+//         feedbackEl.textContent = "Whoops! Not quite!"; 
+//         cardContentEl.appendChild(feedbackEl);
+//         setTimeout(endQuiz, 500);
+//     };
+// };
+
 //the questionObj parameter is the result of (randomizedQuestionSet[questionIndex]) ... the single object question (question/answers pair) that is provided to the nextQuestion function
 var nextQuestion = function() {
     console.log(currentQuestionIndex);
+    console.log(randomizedQuestionSet.length);
     var questionObj = randomizedQuestionSet[currentQuestionIndex];
     questionEl.textContent = questionObj.question;
+    console.log(questionObj);
     clearAnswers();
     for (var i=0; i < questionObj.answers.length; i++) {
         //var randomizedAnswers = questionsObj.answers[Math.floor(Math.random() * questionObj.answers.length)];
@@ -94,6 +122,7 @@ var nextQuestion = function() {
         answersEl.appendChild(answerButtonEl);
     }
         currentQuestionIndex++;
+    
 };
 
 var endQuiz = function() {
@@ -105,7 +134,8 @@ var selectAnswer = function(event) {
     var selectedAnswer = event.target;
     //eliminate repetition later if possible
     var questionObj = randomizedQuestionSet[currentQuestionIndex];
-    /*if (randomizedQuestionSet.length < currentQuestionIndex + 1 && selectedAnswer.value == questionObj.correct) {
+    console.log (currentQuestionIndex);
+        if (randomizedQuestionSet.length < currentQuestionIndex +1 && selectedAnswer.value == randomizedQuestionSet[currentQuestionIndex -1].correct) {
             console.log("correct"); 
             selectedAnswer.style.backgroundColor="green";
             feedbackEl.textContent = "";
@@ -115,14 +145,14 @@ var selectAnswer = function(event) {
             cardContentEl.appendChild(feedbackEl);
             setTimeout(endQuiz, 500);
         }
-        else*/ if (randomizedQuestionSet.length < currentQuestionIndex + 1) {
-            /*console.log("wrong"); 
+        else if (randomizedQuestionSet.length < currentQuestionIndex + 1) {
+            console.log("wrong"); 
             selectedAnswer.style.backgroundColor="red";
             feedbackEl.textContent = "";
             feedbackEl = document.createElement("h3");
             feedbackEl.className = "feedback";
             feedbackEl.textContent = "Whoops! Not quite!"; 
-            cardContentEl.appendChild(feedbackEl);*/
+            cardContentEl.appendChild(feedbackEl);
             setTimeout(endQuiz, 500);
         }
         else if (selectedAnswer.value == questionObj.correct) {
@@ -157,6 +187,22 @@ var viewHighScores = function(event) {
         };
         
     };
+};
+
+//adapted from stackoverflow timer code
+var startCountdown = function(duration, display) {
+    var countdown = duration, minutes, seconds;
+    setInterval(function(){
+        minutes = parseInt(countdown / 60, 10);
+        seconds = parseInt(countdown % 60, 10);
+
+        seconds = seconds < 10 ? "0" + seconds: seconds;
+        display.textContent = seconds;
+        if (--countdown < 0) {
+            countdown = duration;
+        }
+    },1000);
+
 };
 
 //call startGame function on click
