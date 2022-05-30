@@ -105,9 +105,7 @@ var selectAnswer = function(event) {
     var selectedAnswer = event.target;
     //eliminate repetition later if possible
     var questionObj = randomizedQuestionSet[currentQuestionIndex];
-   
-   // var questionObj = randomizedQuestionSet[currentQuestionIndex]; 
-    if (randomizedQuestionSet.length < currentQuestionIndex + 1 && selectedAnswer.value == questionObj.correct) {
+    /*if (randomizedQuestionSet.length < currentQuestionIndex + 1 && selectedAnswer.value == questionObj.correct) {
             console.log("correct"); 
             selectedAnswer.style.backgroundColor="green";
             feedbackEl.textContent = "";
@@ -117,14 +115,14 @@ var selectAnswer = function(event) {
             cardContentEl.appendChild(feedbackEl);
             setTimeout(endQuiz, 500);
         }
-        else if (randomizedQuestionSet.length < currentQuestionIndex + 1) {
-            console.log("wrong"); 
+        else*/ if (randomizedQuestionSet.length < currentQuestionIndex + 1) {
+            /*console.log("wrong"); 
             selectedAnswer.style.backgroundColor="red";
             feedbackEl.textContent = "";
             feedbackEl = document.createElement("h3");
             feedbackEl.className = "feedback";
             feedbackEl.textContent = "Whoops! Not quite!"; 
-            cardContentEl.appendChild(feedbackEl);
+            cardContentEl.appendChild(feedbackEl);*/
             setTimeout(endQuiz, 500);
         }
         else if (selectedAnswer.value == questionObj.correct) {
