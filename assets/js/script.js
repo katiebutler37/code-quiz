@@ -73,6 +73,7 @@ var selectedAnswer;
 
 var clearAnswers = function() {
     answersEl.innerHTML = "";
+    questionEl.innerHTML ="";
 };
 
 //defined function to start game, that will lead to first question on click
@@ -84,10 +85,11 @@ var startGame = function() {
     nextQuestion();
 };
 
+var currentQuestionIndex = 0
+
 var nextQuestion = function() {
     console.log("next question")
     clearAnswers();
-    for (var currentQuestionIndex = 0; currentQuestionIndex < questions.length; currentQuestionIndex++) {
         console.log("question loop");
         questionContentEl = document.createElement("h2");
         questionContentEl.className = "question-content";
@@ -104,7 +106,7 @@ var nextQuestion = function() {
             answersEl.appendChild(answerButtonEl);
             console.log(answerButtonEl);
         }
-    }
+    
     // questionEl.textContent = questionObj.question;
    
         currentQuestionIndex++;
