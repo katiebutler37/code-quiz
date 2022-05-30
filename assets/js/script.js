@@ -109,7 +109,7 @@ var selectAnswer = function(event) {
         endQuiz();
     }
     else if (selectedAnswer === questionObj.correct) {
-        console.log("correct");  
+        console.log("correct"); 
         nextQuestion();
     }
     else {
