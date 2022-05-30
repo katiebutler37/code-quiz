@@ -6,6 +6,7 @@ var answerButtonEl;
 var currentQuestionIndex;
 var randomizedQuestionSet;
 var answerButtonEl;
+var viewHighScoresEl = document.querySelector("#high-scores");
 
 //make an array to hold each question and answer together
 var questions = [
@@ -63,7 +64,7 @@ var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
 
 var clearAnswers = function() {
-    document.querySelector("#answers").innerHTML = "";
+    answersEl.innerHTML = "";
 };
 
 //defined function to start game, that will lead to first question on click
@@ -111,11 +112,24 @@ var selectAnswer = function(event) {
         console.log("correct");  
         nextQuestion();
     }
-    else if (selectedAnswer) {
+    else {
         nextQuestion();
     };
     };
     
+var viewHighScores = function(event) {
+    var viewHighScoresEl = event.target;
+    if (viewHighScoresEl.matches("#high-scores")) {
+        window.confirm("Are you sure you want to end the quiz to view high scores? You can always view them once you finish!");
+        if (window.confirm = true) {
+            questionContainerEl.classList.add("hide");
+            viewHighScoresEl.innerHTML = "Return to quiz";
+        };
+        
+    };
+};
 
 //call startGame function on click
 startButtonEl.addEventListener("click", startGame);
+
+viewHighScoresEl.addEventListener("click", viewHighScores);
