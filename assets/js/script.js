@@ -62,10 +62,10 @@ var questions = [
     }
 ];
 
-var randomizedQuestionSet = questions.sort(() => Math.random() - .5);
-var currentQuestionIndex = 0;
-var questionObj = randomizedQuestionSet[currentQuestionIndex];
-
+// var randomizedQuestionSet = questions.sort(() => Math.random() - .5);
+// var currentQuestionIndex = 0;
+// var questionObj = randomizedQuestionSet[currentQuestionIndex];
+currentQuestionIndex = 0;
 
 var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
@@ -78,24 +78,23 @@ var clearAnswers = function() {
 //defined function to start game, that will lead to first question on click
 var startGame = function() {
     startCountdown();
-    currentQuestionIndex = 0;
+    // currentQuestionIndex = 0;
     quizIntroEl.classList.add("hide");
     questionContainerEl.classList.remove("hide");
     nextQuestion();
 };
 
-//the questionObj parameter is the result of (randomizedQuestionSet[questionIndex]) ... the single object question (question/answers pair) that is provided to the nextQuestion function
 var nextQuestion = function() {
-    console.log(currentQuestionIndex);
-    console.log(randomizedQuestionSet.length);
-    questionEl.textContent = questionObj.question;
-    console.log(questionObj);
+    for (var currentQuestionIndex=0; i < questions[currentQuestionIndex].question.length; currentQuestionIndex++) {
+        questionEl.textContent = questions[currentQuestionIndex].question;
+    }
+    // questionEl.textContent = questionObj.question;
     clearAnswers();
-    for (var i=0; i < questionObj.answers.length; i++) {
+    for (var i=0; i < questions[currentQuestionIndex].answers.length; i++) {
         answerButtonEl = document.createElement("button");
         answerButtonEl.className = "answer-btn btn";
-        answerButtonEl.setAttribute("value", questionObj.answers[i]);
-        answerButtonEl.textContent = questionObj.answers[i]; 
+        answerButtonEl.setAttribute("value", questions[currentQuestionIndex].answers[i]);
+        answerButtonEl.textContent = questions[currentQuestionIndex].answers[i]; 
         answerButtonEl.addEventListener("click", selectAnswer);
         answersEl.appendChild(answerButtonEl);
         console.log(answerButtonEl);
@@ -131,12 +130,12 @@ var wrongFeedback = function() {
 
 var selectAnswer = function(event) {
     selectedAnswer = event.target;
-    console.log (currentQuestionIndex);
-        if (randomizedQuestionSet.length < currentQuestionIndex +1 && selectedAnswer.value == randomizedQuestionSet[currentQuestionIndex -1].correct) {
+    // console.log (currentQuestionIndex);
+        if (questions.length < questions[currentQuestionIndex+1] && selectedAnswer.value == questions[currentQuestionIndex-1].correct) {
             correctFeedback();
             setTimeout(endQuiz, 500);
         }
-        else if (randomizedQuestionSet.length < currentQuestionIndex + 1) {
+        else if (questions.length < questions[currentQuestionIndex+1]) {
             wrongFeedback();
             console.log("wrong"); 
             selectedAnswer.style.backgroundColor="red";
@@ -147,7 +146,7 @@ var selectAnswer = function(event) {
             cardContentEl.appendChild(feedbackEl);
             setTimeout(endQuiz, 500);
         }
-        else if (selectedAnswer.value == questionObj.correct) {
+        else if (selectedAnswer.value == questions[currentQuestionIndex].correct) {
             correctFeedback();
             console.log("correct"); 
             selectedAnswer.style.backgroundColor="green";
