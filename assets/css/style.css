@@ -68,7 +68,7 @@ section {
     /* later will dynamically change to display: none; with javascript by adding className hide to elements*/
 }
 
-#question {
+.question-content {
     font-size: 20px;
     padding: 10px;
     margin-bottom: 5px;

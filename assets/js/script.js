@@ -85,11 +85,17 @@ var startGame = function() {
 };
 
 var nextQuestion = function() {
-    for (var currentQuestionIndex=0; i < questions[currentQuestionIndex].question.length; currentQuestionIndex++) {
-        questionEl.textContent = questions[currentQuestionIndex].question;
+    console.log("next question")
+    clearAnswers();
+    for (var currentQuestionIndex=0; i < questions.length; currentQuestionIndex++) {
+        console.log("question loop");
+        questionContentEl = document.createElement("h2");
+        questionContentEl.className = "question-content";
+        questionContentEl.setAttribute("value", questions[currentQuestionIndex].question);
+        questionContentEl.textContent = questions[currentQuestionIndex].question;
+        questionEl.appendChild(questionContentEl);
     }
     // questionEl.textContent = questionObj.question;
-    clearAnswers();
     for (var i=0; i < questions[currentQuestionIndex].answers.length; i++) {
         answerButtonEl = document.createElement("button");
         answerButtonEl.className = "answer-btn btn";
