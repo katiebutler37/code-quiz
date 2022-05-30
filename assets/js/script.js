@@ -7,6 +7,8 @@ var currentQuestionIndex;
 var randomizedQuestionSet;
 var answerButtonEl;
 var viewHighScoresEl = document.querySelector("#high-scores");
+var feedbackEl = document.querySelector(".feedback");
+var cardContentEl = document.querySelector(".card-content");
 
 //make an array to hold each question and answer together
 var questions = [
@@ -110,9 +112,20 @@ var selectAnswer = function(event) {
     }
     else if (selectedAnswer === questionObj.correct) {
         console.log("correct"); 
+        feedbackEl.textContent = "";
+        feedbackEl = document.createElement("h3");
+        feedbackEl.className = "feedback correct";
+        feedbackEl.textContent = "You got it!"; 
+        cardContentEl.appendChild(feedbackEl);
         nextQuestion();
     }
     else {
+        console.log("wrong"); 
+        feedbackEl.textContent = "";
+        feedbackEl = document.createElement("h3");
+        feedbackEl.className = "feedback";
+        feedbackEl.textContent = "Whoops! Not quite!"; 
+        cardContentEl.appendChild(feedbackEl);
         nextQuestion();
     };
     };

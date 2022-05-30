@@ -96,3 +96,12 @@ section {
 .hide {
     display: none;
 }
+
+.feedback {
+    color: gray;
+    font-style: italic;
+}
+
+.correct {
+    color: var(--tertiary-color);
+}
