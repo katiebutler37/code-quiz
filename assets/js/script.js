@@ -65,7 +65,7 @@ var questions = [
 // var randomizedQuestionSet = questions.sort(() => Math.random() - .5);
 // var currentQuestionIndex = 0;
 // var questionObj = randomizedQuestionSet[currentQuestionIndex];
-currentQuestionIndex = 0;
+// currentQuestionIndex = 0;
 
 var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
@@ -77,8 +77,8 @@ var clearAnswers = function() {
 
 //defined function to start game, that will lead to first question on click
 var startGame = function() {
-    startCountdown();
-    // currentQuestionIndex = 0;
+    //startCountdown();
+    currentQuestionIndex = 0;
     quizIntroEl.classList.add("hide");
     questionContainerEl.classList.remove("hide");
     nextQuestion();
@@ -87,24 +87,26 @@ var startGame = function() {
 var nextQuestion = function() {
     console.log("next question")
     clearAnswers();
-    for (var currentQuestionIndex=0; i < questions.length; currentQuestionIndex++) {
+    for (var currentQuestionIndex = 0; currentQuestionIndex < questions.length; currentQuestionIndex++) {
         console.log("question loop");
         questionContentEl = document.createElement("h2");
         questionContentEl.className = "question-content";
         questionContentEl.setAttribute("value", questions[currentQuestionIndex].question);
         questionContentEl.textContent = questions[currentQuestionIndex].question;
         questionEl.appendChild(questionContentEl);
+        for (var i=0; i < questions[currentQuestionIndex].answers.length; i++) {
+            console.log("answers loop")
+            answerButtonEl = document.createElement("button");
+            answerButtonEl.className = "answer-btn btn";
+            answerButtonEl.setAttribute("value", questions[currentQuestionIndex].answers[i]);
+            answerButtonEl.textContent = questions[currentQuestionIndex].answers[i]; 
+            answerButtonEl.addEventListener("click", selectAnswer);
+            answersEl.appendChild(answerButtonEl);
+            console.log(answerButtonEl);
+        }
     }
     // questionEl.textContent = questionObj.question;
-    for (var i=0; i < questions[currentQuestionIndex].answers.length; i++) {
-        answerButtonEl = document.createElement("button");
-        answerButtonEl.className = "answer-btn btn";
-        answerButtonEl.setAttribute("value", questions[currentQuestionIndex].answers[i]);
-        answerButtonEl.textContent = questions[currentQuestionIndex].answers[i]; 
-        answerButtonEl.addEventListener("click", selectAnswer);
-        answersEl.appendChild(answerButtonEl);
-        console.log(answerButtonEl);
-    }
+   
         currentQuestionIndex++;
     
 };
@@ -188,11 +190,7 @@ var viewHighScores = function(event) {
     };
 };
 
-//adapted from w3schools timer code
-var startCountdown = function() {}
-
-// Set the date we're counting down to
-var countDownTime = 120000;
+//var startCountdown = function() {}
 
 //call startGame function on click
 startButtonEl.addEventListener("click", startGame);
