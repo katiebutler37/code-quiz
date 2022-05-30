@@ -71,14 +71,34 @@ var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
 var selectedAnswer;
 
+var timeLeft = 60;
+var countdown = setInterval(function() {
+        timeLeft--;
+        countdownEl.textContent = "0:" + timeLeft;
+        if (timeLeft === 0) {
+            stopTimer();
+        }
+    }, 1000);
+
+function stopTimer() {
+    countdownEl.textContent = '';
+    clearInterval(countdown);
+    countdownEl.textContent = "Quiz over!";
+    setTimeout(endQuiz, 500);
+};
+
+function decreaseTimer() {
+    timeLeft = timeLeft - 5;
+};
+
 var clearAnswers = function() {
     answersEl.innerHTML = "";
-    questionEl.innerHTML ="";
+    questionEl.innerHTML = "";
 };
 
 //defined function to start game, that will lead to first question on click
 var startGame = function() {
-    //startCountdown();
+    setInterval(countdown);
     currentQuestionIndex = 0;
     quizIntroEl.classList.add("hide");
     questionContainerEl.classList.remove("hide");
@@ -88,34 +108,29 @@ var startGame = function() {
 var currentQuestionIndex = 0
 
 var nextQuestion = function() {
-    console.log("next question")
     clearAnswers();
-        console.log("question loop");
         questionContentEl = document.createElement("h2");
         questionContentEl.className = "question-content";
         questionContentEl.setAttribute("value", questions[currentQuestionIndex].question);
         questionContentEl.textContent = questions[currentQuestionIndex].question;
         questionEl.appendChild(questionContentEl);
         for (var i=0; i < questions[currentQuestionIndex].answers.length; i++) {
-            console.log("answers loop")
             answerButtonEl = document.createElement("button");
             answerButtonEl.className = "answer-btn btn";
             answerButtonEl.setAttribute("value", questions[currentQuestionIndex].answers[i]);
             answerButtonEl.textContent = questions[currentQuestionIndex].answers[i]; 
-            answerButtonEl.addEventListener("click", selectAnswer);
             answersEl.appendChild(answerButtonEl);
+            answerButtonEl.addEventListener("click", selectAnswer);
             console.log(answerButtonEl);
         }
-    
-    // questionEl.textContent = questionObj.question;
-   
-        currentQuestionIndex++;
     
 };
 
 var endQuiz = function() {
+    console.log ("quiz over")
     feedbackEl.textContent = "";
     questionContainerEl.classList.add("hide");
+    clearInterval(countdown);
 }
 
 var correctFeedback = function() {
@@ -130,6 +145,7 @@ var correctFeedback = function() {
 
 var wrongFeedback = function() {
     console.log("wrong"); 
+    decreaseTimer(countdown);
     selectedAnswer.style.backgroundColor="red";
     feedbackEl.textContent = "";
     feedbackEl = document.createElement("h3");
@@ -140,44 +156,28 @@ var wrongFeedback = function() {
 
 var selectAnswer = function(event) {
     selectedAnswer = event.target;
-    // console.log (currentQuestionIndex);
-        if (questions.length < questions[currentQuestionIndex+1] && selectedAnswer.value == questions[currentQuestionIndex-1].correct) {
+    console.log(currentQuestionIndex);
+    console.log(selectedAnswer.value);
+    console.log(questions.length);
+        if (questions.length < currentQuestionIndex + 2 && selectedAnswer.value == questions[currentQuestionIndex].correct) {
             correctFeedback();
+            stopTimer();
             setTimeout(endQuiz, 500);
         }
-        else if (questions.length < questions[currentQuestionIndex+1]) {
+        else if (questions.length < currentQuestionIndex + 2) {
             wrongFeedback();
-            console.log("wrong"); 
-            selectedAnswer.style.backgroundColor="red";
-            feedbackEl.textContent = "";
-            feedbackEl = document.createElement("h3");
-            feedbackEl.className = "feedback";
-            feedbackEl.textContent = "Whoops! Not quite!"; 
-            cardContentEl.appendChild(feedbackEl);
+            stopTimer();
             setTimeout(endQuiz, 500);
         }
         else if (selectedAnswer.value == questions[currentQuestionIndex].correct) {
             correctFeedback();
-            console.log("correct"); 
-            selectedAnswer.style.backgroundColor="green";
-            feedbackEl.textContent = "";
-            feedbackEl = document.createElement("h3");
-            feedbackEl.className = "feedback correct";
-            feedbackEl.textContent = "You got it!"; 
-            cardContentEl.appendChild(feedbackEl);
             setTimeout(nextQuestion, 500);
         }
         else {
             wrongFeedback();
-            console.log("wrong"); 
-            selectedAnswer.style.backgroundColor="red";
-            feedbackEl.textContent = "";
-            feedbackEl = document.createElement("h3");
-            feedbackEl.className = "feedback";
-            feedbackEl.textContent = "Whoops! Not quite!"; 
-            cardContentEl.appendChild(feedbackEl);
             setTimeout(nextQuestion, 500);
         };
+        currentQuestionIndex++;
     };
     
 var viewHighScores = function(event) {
@@ -192,7 +192,7 @@ var viewHighScores = function(event) {
     };
 };
 
-//var startCountdown = function() {}
+
 
 //call startGame function on click
 startButtonEl.addEventListener("click", startGame);
