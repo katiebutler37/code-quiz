@@ -17,22 +17,22 @@ var submitIntialsFormEl = document.querySelector(".form");
 //make an array to hold each question and answer together
 var questions = [
     {
-        question: "How are you?",
+        question: "Which of the following is a Boolean value?",
         //make an inner array to hold the 4 possible answers
-        answers: ["1", "2", "3", "4"],
-        correct: "1"
+        answers: ["null", "12", "yes", "true"],
+        correct: "true"
     },
     {
-        question: "whats up?",
+        question: "What is used to enclose an array?",
         //make an inner array to hold the 4 possible answers
-        answers: ["5", "6", "7", "8"],
-        correct: "1"
+        answers: ["[ ]", "{ }", "( )", "` `"],
+        correct: "[ ]"
     },
     {
-        question: "whats your name?",
+        question: "In which case would you use dot notation?",
         //make an inner array to hold the 4 possible answers
-        answers: ["9", "10", "11", "12"],
-        correct: "1"
+        answers: ["To find the index of an array", "To call an object property", "To declare a function", "To make a conditional statement"],
+        correct: "To call an object property"
     },
     {
         question: "who?",
@@ -67,6 +67,8 @@ var questions = [
 ];
 
 var correctAnswers = [];
+var scores = [];
+var initials = [];
 
 // var randomizedQuestionSet = questions.sort(() => Math.random() - .5);
 // var currentQuestionIndex = 0;
@@ -134,26 +136,17 @@ var nextQuestion = function() {
     
 };
 
-var saveInitials = function(event) {  
-    event.preventDefault();
-    var initialsInput = document.querySelector("input[name='initials']").value;
-    localStorage.setItem("initials", JSON.stringify(initialsInput));
-    quizOutroEl.classList.add("hide");
-    displayScoreSet();
-
-};
-
 var endQuiz = function() {
     console.log ("quiz over")
     feedbackEl.textContent = "";
     questionContainerEl.classList.add("hide");
     clearInterval(countdown);
     var score = correctAnswers.length;
-        localStorage.setItem("score", JSON.stringify(score));
+        scores.push(score);
+        localStorage.setItem("score", JSON.stringify(scores));
     questionContainerEl.classList.add("hide");
     quizOutroEl.classList.remove("hide");
     scoreEl.textContent = score + "/" + questions.length + ".";
-    saveInitials();
 };
 
 var correctFeedback = function() {
@@ -210,46 +203,58 @@ var viewHighScores = function(event) {
     if (viewHighScoresEl.matches("#high-scores")) {
         window.confirm("Are you sure you want to end the quiz to view high scores? You can always view them once you finish!");
         if (window.confirm = true) {
+            clearInterval(countdown);
+            var timeDisplayEl = document.getElementById("time-display");
+            timeDisplayEl.classList.add("hide");
             questionContainerEl.classList.add("hide");
             quizIntroEl.classList.add("hide");
+            quizOutroEl.classList.add("hide");
             viewHighScoresEl.innerHTML = "";
-            stopTimer();
+            highScoresListEl.classList.remove("hide");
         };
         
     };
 };
+// var scoreSet = JSON.parse(localStorage.getItem("score-set")) || [];
 
-var loadScore = function() {
-    var savedScore = localStorage.getItem("score");
-    savedScore = JSON.parse(savedScore);
-    return savedScore;
-}
-
-var loadInitials = function() {
-    var savedInitials =localStorage.getItem("initials");
-    savedInitials = JSON.parse(savedInitials);
-    return savedInitials;
- };    
+// var loadScoreSet = function() {
+// savedScore = localStorage.getItem("score");
+// savedInitials =localStorage.getItem("initials");
+// var savedScoreSet = {
+//     savedScore: scores,
+//     savedInitials: initials
+//     };
+//     scoreSet.push(savedScoreSet);
+//     localStorage.setItem("score-set", JSON.stringify(scoreSet));
+//     return savedScoreSet;
+// }
 
 var displayScoreSet = function() {
-    var savedInitials =localStorage.getItem("initials");
-    var savedScore = localStorage.getItem("score");
+    localStorage.getItem("initials");
+    localStorage.getItem("score");
     highScoreEl = document.createElement("li");
-    highScoreEl.innerHTML = savedInitials + " -- " + savedScore;
+    highScoreEl.innerHTML = "<h4>" + initials + " -- " + scores + "</h4>";
     highScoresListEl.append(highScoreEl);
-
 };
 
 
-//call startGame function on click
-submitIntialsFormEl.addEventListener("submit", saveInitials)
+
+document.getElementById('save-initials').addEventListener('click', function(event) {
+    event.preventDefault();
+    var initialsInput = document.querySelector("input[name='initials']").value;
+    initials.push(initialsInput);
+    localStorage.setItem("initials", JSON.stringify(initials));
+    quizOutroEl.classList.add("hide");
+    highScoresListEl.classList.remove("hide");
+    displayScoreSet();
+})
 
 viewHighScoresEl.addEventListener("click", viewHighScores);
 
+// //call startGame function on click
 startButtonEl.addEventListener("click", startGame);
 
-loadScore();
-loadInitials();
+// loadScoreSet();
 displayScoreSet();
 
 
