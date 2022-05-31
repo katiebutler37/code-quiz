@@ -71,6 +71,11 @@ var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
 var selectedAnswer;
 
+var correctAnswers = [];
+var score = correctAnswers.length;
+//correctAnswers.push(1); whenever selected answer gets correct feedback
+localStorage.setItem("score", JSON.stringify(score));
+
 var timeLeft = 60;
 var countdown = setInterval(function() {
         timeLeft--;
@@ -135,6 +140,8 @@ var endQuiz = function() {
 
 var correctFeedback = function() {
     console.log("correct"); 
+    correctAnswers.push(1);
+    console.log(correctAnswers);
     selectedAnswer.style.backgroundColor="green";
     feedbackEl.textContent = "";
     feedbackEl = document.createElement("h3");
