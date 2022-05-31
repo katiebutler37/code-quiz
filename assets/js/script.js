@@ -9,6 +9,9 @@ var feedbackEl = document.querySelector(".feedback");
 var cardContentEl = document.querySelector(".card-content");
 var countdownEl = document.querySelector("#countdown");
 var highScoresListEl = document.querySelector(".high-score-list");
+var quizOutroEl = document.querySelector(".quiz-outro");
+var scoreEl = document.querySelector("#score");
+var submitIntialsFormEl = document.querySelector(".form");
 
 
 //make an array to hold each question and answer together
@@ -131,19 +134,27 @@ var nextQuestion = function() {
     
 };
 
+var saveInitials = function(event) {  
+    event.preventDefault();
+    var initialsInput = document.querySelector("input[name='initials']").value;
+    localStorage.setItem("initials", JSON.stringify(initialsInput));
+    quizOutroEl.classList.add("hide");
+    displayScoreSet();
+
+};
+
 var endQuiz = function() {
     console.log ("quiz over")
     feedbackEl.textContent = "";
     questionContainerEl.classList.add("hide");
     clearInterval(countdown);
     var score = correctAnswers.length;
-    localStorage.setItem("score", JSON.stringify(score));
-}
-
-var saveInitials = function() {  
-    var initialsInput = document.querySelector("input[name='initials']").value;
-    localStorage.setItem("initials", JSON.stringify(initialsInput));
-}
+        localStorage.setItem("score", JSON.stringify(score));
+    questionContainerEl.classList.add("hide");
+    quizOutroEl.classList.remove("hide");
+    scoreEl.textContent = score + "/" + questions.length + ".";
+    saveInitials();
+};
 
 var correctFeedback = function() {
     console.log("correct"); 
@@ -155,7 +166,7 @@ var correctFeedback = function() {
     feedbackEl.className = "feedback correct";
     feedbackEl.textContent = "You got it!"; 
     cardContentEl.appendChild(feedbackEl);
-}
+};
 
 var wrongFeedback = function() {
     console.log("wrong"); 
@@ -166,7 +177,7 @@ var wrongFeedback = function() {
     feedbackEl.className = "feedback";
     feedbackEl.textContent = "Whoops! Not quite!"; 
     cardContentEl.appendChild(feedbackEl);
-}
+};
 
 var selectAnswer = function(event) {
     selectedAnswer = event.target;
@@ -221,17 +232,25 @@ var loadInitials = function() {
  };    
 
 var displayScoreSet = function() {
+    var savedInitials =localStorage.getItem("initials");
+    var savedScore = localStorage.getItem("score");
     highScoreEl = document.createElement("li");
     highScoreEl.innerHTML = savedInitials + " -- " + savedScore;
     highScoresListEl.append(highScoreEl);
 
-}
+};
+
 
 //call startGame function on click
-startButtonEl.addEventListener("click", startGame);
+submitIntialsFormEl.addEventListener("submit", saveInitials)
 
 viewHighScoresEl.addEventListener("click", viewHighScores);
+
+startButtonEl.addEventListener("click", startGame);
 
 loadScore();
 loadInitials();
 displayScoreSet();
+
+
+
