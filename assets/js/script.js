@@ -8,6 +8,7 @@ var viewHighScoresEl = document.querySelector("#high-scores");
 var feedbackEl = document.querySelector(".feedback");
 var cardContentEl = document.querySelector(".card-content");
 var countdownEl = document.querySelector("#countdown");
+var highScoresListEl = document.querySelector(".high-score-list");
 
 
 //make an array to hold each question and answer together
@@ -62,6 +63,8 @@ var questions = [
     }
 ];
 
+var correctAnswers = [];
+
 // var randomizedQuestionSet = questions.sort(() => Math.random() - .5);
 // var currentQuestionIndex = 0;
 // var questionObj = randomizedQuestionSet[currentQuestionIndex];
@@ -71,10 +74,7 @@ var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
 var selectedAnswer;
 
-var correctAnswers = [];
-var score = correctAnswers.length;
 //correctAnswers.push(1); whenever selected answer gets correct feedback
-localStorage.setItem("score", JSON.stringify(score));
 
 var timeLeft = 60;
 var countdown = setInterval(function() {
@@ -136,11 +136,18 @@ var endQuiz = function() {
     feedbackEl.textContent = "";
     questionContainerEl.classList.add("hide");
     clearInterval(countdown);
+    var score = correctAnswers.length;
+    localStorage.setItem("score", JSON.stringify(score));
+}
+
+var saveInitials = function() {  
+    var initialsInput = document.querySelector("input[name='initials']").value;
+    localStorage.setItem("initials", JSON.stringify(initialsInput));
 }
 
 var correctFeedback = function() {
     console.log("correct"); 
-    correctAnswers.push(1);
+    correctAnswers.push("1");
     console.log(correctAnswers);
     selectedAnswer.style.backgroundColor="green";
     feedbackEl.textContent = "";
@@ -193,15 +200,38 @@ var viewHighScores = function(event) {
         window.confirm("Are you sure you want to end the quiz to view high scores? You can always view them once you finish!");
         if (window.confirm = true) {
             questionContainerEl.classList.add("hide");
-            viewHighScoresEl.innerHTML = "Return to quiz";
+            quizIntroEl.classList.add("hide");
+            viewHighScoresEl.innerHTML = "";
+            stopTimer();
         };
         
     };
 };
 
+var loadScore = function() {
+    var savedScore = localStorage.getItem("score");
+    savedScore = JSON.parse(savedScore);
+    return savedScore;
+}
 
+var loadInitials = function() {
+    var savedInitials =localStorage.getItem("initials");
+    savedInitials = JSON.parse(savedInitials);
+    return savedInitials;
+ };    
+
+var displayScoreSet = function() {
+    highScoreEl = document.createElement("li");
+    highScoreEl.innerHTML = savedInitials + " -- " + savedScore;
+    highScoresListEl.append(highScoreEl);
+
+}
 
 //call startGame function on click
 startButtonEl.addEventListener("click", startGame);
 
 viewHighScoresEl.addEventListener("click", viewHighScores);
+
+loadScore();
+loadInitials();
+displayScoreSet();
