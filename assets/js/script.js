@@ -20,6 +20,7 @@ var highScoresPageEl = document.querySelector("#high-score-page");
 var highScoreEl = document.querySelector(".score-list-item");
 var score = 0;
 var initials;
+var restartButtonEl = document.querySelector(".restart-btn");
 
 //make an array to hold each question and answer together
 var questions = [
@@ -84,6 +85,7 @@ var selectedAnswer;
 var currentQuestionIndex = 0;
 
 //selected elements for timer
+var timeDisplayEl = document.getElementById("time-display");
 var countdownEl = document.querySelector("#countdown");
 var countdown; 
 //start timer with 60 s
@@ -94,8 +96,8 @@ if (timeLeft === 0) {
 }
 
 //function to start game, that will lead to first question on click
-var startGame = function() {
-    //starts 60 second timer on startGame button click
+var startQuiz = function() {
+    //starts 60 second timer on startQuiz button click
         countdown = setInterval(function() {
         //decrement timer...
         timeLeft--;
@@ -234,17 +236,21 @@ var viewHighScores = function(event) {
         window.confirm("Are you sure you want to end the quiz to view high scores? You can always view them once you finish!");
         if (window.confirm = true) {
             clearInterval(countdown);
-            var timeDisplayEl = document.getElementById("time-display");
             timeDisplayEl.classList.add("hide");
             questionContainerEl.classList.add("hide");
             quizIntroEl.classList.add("hide");
             quizOutroEl.classList.add("hide");
             viewHighScoresEl.innerHTML = "";
-            highScoresListEl.classList.remove("hide");
+            highScoresPageEl.classList.remove("hide");
+            feedbackEl.textContent = "";
             displayScoreSet();
         };
         
     };
+};
+
+var restartQuiz = function() {
+    location.reload();
 };
 
 //adds new score item to display
@@ -284,8 +290,10 @@ document.getElementById('save-initials').addEventListener('click', function(even
 
 viewHighScoresEl.addEventListener("click", viewHighScores);
 
-// //call startGame function on click
-startButtonEl.addEventListener("click", startGame);
+restartButtonEl.addEventListener("click", restartQuiz);
+
+// //call startQuiz function on click
+startButtonEl.addEventListener("click", startQuiz);
 
 
 

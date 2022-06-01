@@ -68,6 +68,11 @@ section {
     /* later will dynamically change to display: none; with javascript by adding className hide to elements*/
 }
 
+.quiz-intro h1 {
+    font-size: 40px;
+    font-style: italic;
+}
+
 .question-content {
     font-size: 20px;
     padding: 10px;
@@ -114,4 +119,8 @@ section {
 
 .high-score-list li {
     background-color: rgb(211, 175, 255);
+}
+
+.restart-btn {
+    margin: 5px 0 0 25px;
 }
