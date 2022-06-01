@@ -1,5 +1,4 @@
 //get elements from HTMl index to target
-
 //selected elements for starting quiz
 var startButtonEl = document.querySelector("#start-btn");
 var quizIntroEl = document.querySelector(".quiz-intro");

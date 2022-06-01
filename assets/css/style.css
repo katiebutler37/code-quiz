@@ -124,3 +124,37 @@ section {
     background-color: rgb(211, 175, 255);
 }
 
+
+/* MEDIA QUERY FOR SMALLER DESKTOP SCREENS AND SMALLER */
+@media screen and (max-width: 980px) {
+    .quiz-intro h1 {
+        font-size: 37px;
+    }
+    .quiz-intro p {
+        font-size: 15px;
+    }
+    .card-content {
+        width: 55%;
+        margin-top: 55px;
+    }
+}
+
+ /* MEDIA QUERY FOR TABLETS AND SMALLER */
+ @media screen and (max-width: 768px) {
+    .quiz-intro h1 {
+        font-size: 33px;
+    }
+    .card-content {
+        margin-top: 50px;
+    }
+ }
+
+/* MEDIA QUERY FOR MOBILE PHONES AND SMALLER */
+@media screen and (max-width: 575px) {
+    .quiz-intro h1 {
+        font-size: 28px;
+    }
+    .card-content {
+        width: 60%;
+    }
+}
