@@ -119,7 +119,7 @@ section {
     color: var(--tertiary-color);
 }
 
-/* HIGHSCORE LIST STYLING*/
+/* HIGHSCORE LIST STYLING */
 .high-score-list li {
     background-color: rgb(211, 175, 255);
 }

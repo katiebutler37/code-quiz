@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- LINK TO CSS STYLESHEET -->
     <link href="./assets/css/style.css" rel="stylesheet" />
     <title>Code Quiz</title>
 </head>
@@ -11,12 +12,14 @@
     <!-- HEADER -->
     <header>
         <h3 id="high-scores">View high scores</h3>
+        <!-- TIMER -->
         <h4 id="time-display"> Time: <span id="countdown"></span></h4>
     </header>
     <!-- MAIN CONTENT DISPLAY AREA -->
     <section>
         <div class="card">
             <div class="card-content">
+                <!-- QUIZ INTRO PAGE -->
                 <div class="quiz-intro">
                     <h1>
                         Katie's Quick Coding Quiz
@@ -24,35 +27,44 @@
                     <p>
                         Welcome to your speedy knowledge check! You have 60 seconds to complete this quiz. Don't rush too much though! Wrong answers will deduct 5 seconds from your overall time. Goodluck!
                     </p>
+                    <!-- START QUIZ BUTTON -->
                     <button id="start-btn" class="start-btn btn">Start Quiz</button>
                 </div>
+                <!-- QUIZ QUESTIONS AND ANSWERS SEQUENCE -->
                 <div id="question-container" class="hide">
                     <div id="question"></div> 
                     <div id="answers"></div>
                 </div>  
+                <!-- FEEDBACK COMMENTS FOR RIGHT/WRONG ANSWERS -->
                 <div class="feedback"></div>
+                <!-- QUIZ OUTRO PAGE -->
                 <div class="quiz-outro hide">
                     <h1>All Done!</h1>
                     <h3>Your final score is <span id="score"></span></h3>
+                    <!-- FORM TO INPUT INITIALS TO SAVE HIGHSCORE -->
                     <div class="form">
                         <input type="text" name="initials" placeholder="Enter Your Initials" />
                         <button class="btn" id="save-initials" type="submit">Submit</button> 
                     </div>
                 </div>
+                <!-- HIGH SCORES PAGE -->
                 <div id="high-score-page" class="hide">
                     <h1>High Scores</h1>
                     <ol class="high-score-list">
+                        <!-- TOP 5 HIGH SCORES DISPLAYED IN ORDERS LIST -->
                         <li class="score-list-item"></li>
                         <li class="score-list-item"></li>
                         <li class="score-list-item"></li>
                         <li class="score-list-item"></li>
                         <li class="score-list-item"></li>
                     </ol>
+                    <!-- RESTART QUIZ BUTTON -->
                     <button class="restart-btn btn">Restart Quiz</button>
                 </div>
             </div>    
         </div>    
     </section>
+    <!-- LINK TO JAVASCRIPT DYNAMIC QUIZ CODE -->
     <script src="./assets/js/script.js"></script>
 </body>
 </html>

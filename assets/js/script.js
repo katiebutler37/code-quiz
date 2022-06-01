@@ -91,9 +91,9 @@ var countdown;
 //start timer with 60 s
 var timeLeft = 60;
 //stop timer at 0 s
-if (timeLeft === 0) {
-    stopTimer();
-}
+// if (timeLeft === 0) {
+//     stopTimer();
+//}
 
 //function to start game, that will lead to first question on click
 var startQuiz = function() {
@@ -103,6 +103,10 @@ var startQuiz = function() {
         timeLeft--;
         countdownEl.textContent = "0:" + timeLeft;
         //...once per second
+            //stop timer at 0 s
+            if (timeLeft <= 0) {
+            stopTimer();
+         };
     }, 1000); 
     //calls countdown function to start timer
     setInterval(countdown);
@@ -276,29 +280,30 @@ var restartQuiz = function() {
 
 //adds new score item to display
 var displayScoreSets = function() {
-    //grab stored array of scores and intials from localStorage
-    //IMPORTANT: if there is nothing yet in local storage, a blank list of 5 items will appear in place of the highscores list and a console error will appear because it is unable to sort an array with no items...
-    //...this will not affect the function of the quiz becuse the page reloads on click of the restartQuiz button
-    var scoreSets = JSON.parse(localStorage.getItem("score-sets"))
-    console.log(scoreSets);
-    //sort array from highest to lowest
-    scoreSets.sort((a, b) => {
-        return b.savedScore - a.savedScore;
-    });
-    //reset html content
-    var html ="";
-    //loop through scoreSets to display array but...
-    for (i=0; i < scoreSets.length; i++) {
-        //...stop at index 4 to keep only the top 5 showing
-        if (i>=5) {
-            break;
+    //IMPORTANT: if there is nothing yet in local storage, a blank list of 5 items will appear in place of the highscores list to indicate to quiz-taker that 5 highscores can be saved 
+    if (localStorage.length > 0) {
+        //grab stored array of scores and intials from localStorage
+        var scoreSets = JSON.parse(localStorage.getItem("score-sets"))
+        console.log(scoreSets);
+        //sort array from highest to lowest
+        scoreSets.sort((a, b) => {
+            return b.savedScore - a.savedScore;
+        });
+        //reset html content
+        var html ="";
+        //loop through scoreSets to display array but...
+        for (i=0; i < scoreSets.length; i++) {
+            //...stop at index 4 to keep only the top 5 showing
+            if (i>=5) {
+                break;
+            }
+            //display scores in a list with each item reading "intials -- score"
+            html += "<li class='score-list-item'>" + scoreSets[i].savedInitials + " -- " + scoreSets[i].savedScore + "</li>"
         }
-        //display scores in a list with each item reading "intials -- score"
-        html += "<li class='score-list-item'>" + scoreSets[i].savedInitials + " -- " + scoreSets[i].savedScore + "</li>"
-    }
-    console.log(scoreSets);
-    //set the highscores list element to this html
-    highScoresListEl.innerHTML = html;
+        console.log(scoreSets);
+        //set the highscores list element to this html
+        highScoresListEl.innerHTML = html;
+    };
 };
 
 //add an event listener to the submit button
