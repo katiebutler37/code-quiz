@@ -94,9 +94,9 @@ section {
     padding: 15px;
 }
 
-.btn:hover {
+/* .btn:hover {
     background-color: var(--tertiary-color);
-}
+} */
 
 .answer-btn {
     display: block;
