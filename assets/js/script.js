@@ -1,18 +1,23 @@
 //get elements from HTMl index to target
+
+//selected elements for starting quiz
 var startButtonEl = document.querySelector("#start-btn");
 var quizIntroEl = document.querySelector(".quiz-intro");
+
+//selected elements for general quiz layout
 var questionContainerEl = document.querySelector("#question-container");
-var answerButtonEl;
-var answerButtonEl;
-var viewHighScoresEl = document.querySelector("#high-scores");
-var feedbackEl = document.querySelector(".feedback");
 var cardContentEl = document.querySelector(".card-content");
-var countdownEl = document.querySelector("#countdown");
-var highScoresListEl = document.querySelector(".high-score-list");
+
+//selected elements for ending quiz
 var quizOutroEl = document.querySelector(".quiz-outro");
 var scoreEl = document.querySelector("#score");
 var submitIntialsFormEl = document.querySelector(".form");
 
+//selected elements for high score
+var viewHighScoresEl = document.querySelector("#high-scores");
+var highScoresListEl = document.querySelector(".high-score-page");
+var score = 0;
+var initials;
 
 //make an array to hold each question and answer together
 var questions = [
@@ -35,96 +40,109 @@ var questions = [
         correct: "To call an object property"
     },
     {
-        question: "who?",
+        question: "Which of the following examples does not grab an HTML element by its id tag?",
         //make an inner array to hold the 4 possible answers
-        answers: ["1", "2", "3", "4"],
-        correct: "1"
+        answers: ["document.getElementbyId('pizza')", "document.querySelector('#pizza')", "document.querySelector('.pizza')", "document.querySelector('[id='pizza']')"],
+        correct: "document.querySelector('.pizza')"
     },
     {
-        question: "why?",
+        question: "Which method can you use to return a string?",
         //make an inner array to hold the 4 possible answers
-        answers: ["1", "2", "3", "4"],
-        correct: "1"
+        answers: ["document.element.string", "JSON.stringify", "JSON.parse", "JSON.string"],
+        correct: "JSON.stringify"
     },
     {
-        question: "when?",
+        question: "What function is used to start a timer?",
         //make an inner array to hold the 4 possible answers
-        answers: ["1", "2", "3", "4"],
-        correct: "1"
+        answers: ["setInterval()", "setTimeout()", "startTimer()", "countDown()"],
+        correct: "setInterval()"
     },
     {
-        question: "where?",
+        question: "Which of the following is not a shortcut to set up the beginning structure of an HTML page?",
         //make an inner array to hold the 4 possible answers
-        answers: ["1", "2", "3", "4"],
-        correct: "1"
+        answers: ["!!!", "!", "HTML:5", "HTML"],
+        correct: "HTML"
     },
     {
-        question: "what?",
+        question: "Given that the HTML tag <ol> appears on line 4, what tag could you reasonably expect to find on line 5?",
         //make an inner array to hold the 4 possible answers
-        answers: ["1", "2", "3", "4"],
-        correct: "1"
+        answers: ["<p>", "<li>", "<h2>", "<br>"],
+        correct: "<li>"
     }
-];
-
+]
+//array to store an arbitrary value for each correct answer, length of array to be used to calculate final score
 var correctAnswers = [];
-var scores = [];
-var initials = [];
 
-// var randomizedQuestionSet = questions.sort(() => Math.random() - .5);
-// var currentQuestionIndex = 0;
-// var questionObj = randomizedQuestionSet[currentQuestionIndex];
-// currentQuestionIndex = 0;
-
+//selected elements for main quiz progression
 var questionEl = document.querySelector("#question");
 var answersEl = document.querySelector("#answers");
+var answerButtonEl;
+var feedbackEl = document.querySelector(".feedback");
 var selectedAnswer;
+var currentQuestionIndex = 0;
 
-//correctAnswers.push(1); whenever selected answer gets correct feedback
-
+//selected elements for timer
+var countdownEl = document.querySelector("#countdown");
+//start timer with 60 s
 var timeLeft = 60;
+
+//starts 60 second timer on startGame button click
 var countdown = setInterval(function() {
+        //decrement timer...
         timeLeft--;
         countdownEl.textContent = "0:" + timeLeft;
         if (timeLeft === 0) {
             stopTimer();
         }
-    }, 1000);
+        //...once per second
+    }, 1000); 
 
+//stops timer and goes to endQuiz sequence 
 function stopTimer() {
+    //remove current timer display
     countdownEl.textContent = '';
     clearInterval(countdown);
+    //replace timer with Quiz over! message
     countdownEl.textContent = "Quiz over!";
     setTimeout(endQuiz, 500);
 };
 
+//removes 5 seconds off timer for every incorrect answer
 function decreaseTimer() {
     timeLeft = timeLeft - 5;
 };
 
-var clearAnswers = function() {
-    answersEl.innerHTML = "";
-    questionEl.innerHTML = "";
-};
-
-//defined function to start game, that will lead to first question on click
+//function to start game, that will lead to first question on click
 var startGame = function() {
+    //calls countdown function to start timer
     setInterval(countdown);
+    //start question index at 0
     currentQuestionIndex = 0;
+    //change display from intro to questions
     quizIntroEl.classList.add("hide");
     questionContainerEl.classList.remove("hide");
     nextQuestion();
 };
 
-var currentQuestionIndex = 0
+//clears answer and question text content before next object in the questions array is loaded
+var clearAnswers = function() {
+    answersEl.innerHTML = "";
+    questionEl.innerHTML = "";
+};
 
+//function to switch to next question's content
 var nextQuestion = function() {
+    //git rid of old question content
     clearAnswers();
+        //create and display question in browser
         questionContentEl = document.createElement("h2");
         questionContentEl.className = "question-content";
         questionContentEl.setAttribute("value", questions[currentQuestionIndex].question);
         questionContentEl.textContent = questions[currentQuestionIndex].question;
         questionEl.appendChild(questionContentEl);
+        //loop through answers array to display all answers for each question
         for (var i=0; i < questions[currentQuestionIndex].answers.length; i++) {
+            //create and display answers in browser
             answerButtonEl = document.createElement("button");
             answerButtonEl.className = "answer-btn btn";
             answerButtonEl.setAttribute("value", questions[currentQuestionIndex].answers[i]);
@@ -132,8 +150,7 @@ var nextQuestion = function() {
             answersEl.appendChild(answerButtonEl);
             answerButtonEl.addEventListener("click", selectAnswer);
             console.log(answerButtonEl);
-        }
-    
+        } 
 };
 
 var endQuiz = function() {
@@ -141,9 +158,9 @@ var endQuiz = function() {
     feedbackEl.textContent = "";
     questionContainerEl.classList.add("hide");
     clearInterval(countdown);
-    var score = correctAnswers.length;
-        scores.push(score);
-        localStorage.setItem("score", JSON.stringify(scores));
+        score = correctAnswers.length;
+        //scores.push(score);
+        //localStorage.setItem("score", JSON.stringify(scores));
     questionContainerEl.classList.add("hide");
     quizOutroEl.classList.remove("hide");
     scoreEl.textContent = score + "/" + questions.length + ".";
@@ -211,39 +228,38 @@ var viewHighScores = function(event) {
             quizOutroEl.classList.add("hide");
             viewHighScoresEl.innerHTML = "";
             highScoresListEl.classList.remove("hide");
+            displayScoreSet();
         };
         
     };
 };
-// var scoreSet = JSON.parse(localStorage.getItem("score-set")) || [];
 
-// var loadScoreSet = function() {
-// savedScore = localStorage.getItem("score");
-// savedInitials =localStorage.getItem("initials");
-// var savedScoreSet = {
-//     savedScore: scores,
-//     savedInitials: initials
-//     };
-//     scoreSet.push(savedScoreSet);
-//     localStorage.setItem("score-set", JSON.stringify(scoreSet));
-//     return savedScoreSet;
-// }
-
+//adds new score item to display
 var displayScoreSet = function() {
+    var scoreSet = JSON.parse(localStorage.getItem("score-set"))
+    console.log(scoreSet);
+    if (initials && score !== null) {
+    scoreSet.forEach(function(){
+    highScoreEl = document.createElement("li");
+    highScoreEl.innerHTML = "<h4>" + initials + " -- " + score + "</h4>";
+    highScoresListEl.append(highScoreEl);
+    });
     localStorage.getItem("initials");
     localStorage.getItem("score");
-    highScoreEl = document.createElement("li");
-    highScoreEl.innerHTML = "<h4>" + initials + " -- " + scores + "</h4>";
-    highScoresListEl.append(highScoreEl);
+}
 };
-
-
 
 document.getElementById('save-initials').addEventListener('click', function(event) {
     event.preventDefault();
-    var initialsInput = document.querySelector("input[name='initials']").value;
-    initials.push(initialsInput);
-    localStorage.setItem("initials", JSON.stringify(initials));
+    initials = document.querySelector("input[name='initials']").value;
+    score = correctAnswers.length;
+    var scoreSet = JSON.parse(localStorage.getItem("score-set")) || [];
+    var savedScoreSet = {
+         savedScore: score,
+            savedInitials: initials
+            };
+            scoreSet.push(savedScoreSet);
+            localStorage.setItem("score-set", JSON.stringify(scoreSet));
     quizOutroEl.classList.add("hide");
     highScoresListEl.classList.remove("hide");
     displayScoreSet();
@@ -254,8 +270,9 @@ viewHighScoresEl.addEventListener("click", viewHighScores);
 // //call startGame function on click
 startButtonEl.addEventListener("click", startGame);
 
-// loadScoreSet();
-displayScoreSet();
+
+
+
 
 
 

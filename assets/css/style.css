@@ -57,7 +57,7 @@ section {
 
 .card-content {
     width: 50%;
-    margin-top: 100px;
+    margin-top: 60px;
 }
 
 .quiz-intro {
@@ -110,4 +110,8 @@ section {
 
 .correct {
     color: var(--tertiary-color);
+}
+
+.high-score-list li {
+    background-color: rgb(211, 175, 255);
 }
