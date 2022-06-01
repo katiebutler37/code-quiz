@@ -176,10 +176,14 @@ var endQuiz = function() {
 //function to provide feedback if the selectedAnswer is correct
 var correctFeedback = function() {
     console.log("correct"); 
+    //arbitrary value pushed to correctAnswers array to add to correctAnswers.length
     correctAnswers.push("1");
     console.log(correctAnswers);
+    //turn button color green
     selectedAnswer.style.backgroundColor="green";
+    //clear out past feedback
     feedbackEl.textContent = "";
+    //insert correct feedback
     feedbackEl = document.createElement("h3");
     feedbackEl.className = "feedback correct";
     feedbackEl.textContent = "You got it!"; 
@@ -191,8 +195,11 @@ var wrongFeedback = function() {
     console.log("wrong"); 
     //...and take 5 s off the clock!
     decreaseTimer(countdown);
+    //turn button color red
     selectedAnswer.style.backgroundColor="red";
+    //clear out past feedback
     feedbackEl.textContent = "";
+    //insert wrong feedback
     feedbackEl = document.createElement("h3");
     feedbackEl.className = "feedback";
     feedbackEl.textContent = "Whoops! Not quite!"; 
@@ -213,28 +220,35 @@ var selectAnswer = function(event) {
             //...end the Quiz (after a delay long enough to display the feedback)
             setTimeout(endQuiz, 500);
         }
-        //or if were out of questions
+        //or if we're out of questions to flip through...
         else if (questions.length < currentQuestionIndex + 2) {
             wrongFeedback();
             stopTimer();
+            //...end the Quiz (after a delay long enough to display the feedback)
             setTimeout(endQuiz, 500);
         }
+        //if correct and not out of questions, display corret feeback and go to next question
         else if (selectedAnswer.value == questions[currentQuestionIndex].correct) {
             correctFeedback();
             setTimeout(nextQuestion, 500);
         }
+        //if wrong and more questions remain, display wrong feedback and go to next question
         else {
             wrongFeedback();
             setTimeout(nextQuestion, 500);
         };
+        //increase question index after the question at the prior index has appeared, been clicked and receveived feedback
         currentQuestionIndex++;
     };
-    
+
+    //function to stop quiz and go to highscores from any time in the quiz
 var viewHighScores = function(event) {
     var viewHighScoresEl = event.target;
+    //if the "view high scores" heading is clicked...
     if (viewHighScoresEl.matches("#high-scores")) {
+        //use a pop up to confirm they want to exit the quiz
         window.confirm("Are you sure you want to end the quiz to view high scores? You can always view them once you finish!");
-        if (window.confirm = true) {
+        if (confirm) {
             clearInterval(countdown);
             timeDisplayEl.classList.add("hide");
             questionContainerEl.classList.add("hide");
@@ -244,8 +258,10 @@ var viewHighScores = function(event) {
             highScoresPageEl.classList.remove("hide");
             feedbackEl.textContent = "";
             displayScoreSet();
+        }
+        else {
+            return false;
         };
-        
     };
 };
 

@@ -28,10 +28,6 @@ header h3 {
     font-weight: lighter;
 }
 
-header h3:hover {
-    color: var(--tertiary-color);
-}
-
 header h4 {
     color: rgb(105, 105, 105);
 }
@@ -65,7 +61,6 @@ section {
     justify-content: center;
     text-align: center;
     align-items: center;
-    /* later will dynamically change to display: none; with javascript by adding className hide to elements*/
 }
 
 .quiz-intro h1 {
@@ -94,10 +89,6 @@ section {
     padding: 15px;
 }
 
-/* .btn:hover {
-    background-color: var(--tertiary-color);
-} */
-
 .answer-btn {
     display: block;
     margin: 10px; 
@@ -105,6 +96,7 @@ section {
 }
 
 .hide {
+    /* will dynamically change to display: none; with javascript by adding className hide to elements*/
     display: none;
 }
 
