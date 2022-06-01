@@ -247,17 +247,21 @@ var viewHighScores = function(event) {
     //if the "view high scores" heading is clicked...
     if (viewHighScoresEl.matches("#high-scores")) {
         //use a pop up to confirm they want to exit the quiz
-        window.confirm("Are you sure you want to end the quiz to view high scores? You can always view them once you finish!");
-        if (confirm) {
+        var userChoice = window.confirm("Are you sure you want to end the quiz to view high scores? You can always view them once you finish!");
+        //if okay is selected, go to highscores page
+        if (userChoice) {
+            //stop timer
             clearInterval(countdown);
+            //remove current page content
             timeDisplayEl.classList.add("hide");
             questionContainerEl.classList.add("hide");
             quizIntroEl.classList.add("hide");
             quizOutroEl.classList.add("hide");
             viewHighScoresEl.innerHTML = "";
-            highScoresPageEl.classList.remove("hide");
             feedbackEl.textContent = "";
-            displayScoreSet();
+            //display highscores page content
+            highScoresPageEl.classList.remove("hide");
+            displayScoreSets();
         }
         else {
             return false;
@@ -265,50 +269,71 @@ var viewHighScores = function(event) {
     };
 };
 
+//if restart button is clicked, reload page to return to the quiz intro at timeLeft = 60
 var restartQuiz = function() {
     location.reload();
 };
 
 //adds new score item to display
-var displayScoreSet = function() {
-    var scoreSet = JSON.parse(localStorage.getItem("score-set"))
-    console.log(scoreSet);
-    scoreSet.sort((a, b) => {
+var displayScoreSets = function() {
+    //grab stored array of scores and intials from localStorage
+    //IMPORTANT: if there is nothing yet in local storage, a blank list of 5 items will appear in place of the highscores list and a console error will appear because it is unable to sort an array with no items...
+    //...this will not affect the function of the quiz becuse the page reloads on click of the restartQuiz button
+    var scoreSets = JSON.parse(localStorage.getItem("score-sets"))
+    console.log(scoreSets);
+    //sort array from highest to lowest
+    scoreSets.sort((a, b) => {
         return b.savedScore - a.savedScore;
     });
+    //reset html content
     var html ="";
-    for (i=0; i < scoreSet.length; i++) {
+    //loop through scoreSets to display array but...
+    for (i=0; i < scoreSets.length; i++) {
+        //...stop at index 4 to keep only the top 5 showing
         if (i>=5) {
             break;
         }
-        html += "<li class='score-list-item'>" + scoreSet[i].savedInitials + " -- " + scoreSet[i].savedScore + "</li>"
+        //display scores in a list with each item reading "intials -- score"
+        html += "<li class='score-list-item'>" + scoreSets[i].savedInitials + " -- " + scoreSets[i].savedScore + "</li>"
     }
-    console.log(scoreSet);
+    console.log(scoreSets);
+    //set the highscores list element to this html
     highScoresListEl.innerHTML = html;
 };
 
+//add an event listener to the submit button
 document.getElementById('save-initials').addEventListener('click', function(event) {
+    //prevent page from reloading on submit
     event.preventDefault();
+    // initials variable will be equal to the value inputted OR anonymous if no value is inputted
     initials = document.querySelector("input[name='initials']").value || "anonymous";
+    //score comes from the length of the correctAnswers array that we pushed an arbitrary value into for each correct answer so that length = # of correct ansers
     score = correctAnswers.length;
-    var scoreSet = JSON.parse(localStorage.getItem("score-set")) || [];
+    //load scoreSets (an array) from localStorage and turn strings back to objects
+    var scoreSets = JSON.parse(localStorage.getItem("score-sets")) || [];
+    //each object inside of scoreSets array is called savedScoreSet, each containing one saved score corresponding initial
     var savedScoreSet = {
             savedScore: score,
             savedInitials: initials
             };
-            scoreSet.push(savedScoreSet);
-            localStorage.setItem("score-set", JSON.stringify(scoreSet));
-            
+            //add the individal savedScoreSet item to the array of scoreSets
+            scoreSets.push(savedScoreSet);
+            //add updated array to local storage
+            localStorage.setItem("score-sets", JSON.stringify(scoreSets));
+    //remove current page content from display     
     quizOutroEl.classList.add("hide");
     highScoresPageEl.classList.remove("hide");
-    displayScoreSet();
+    //display page with high score list
+    displayScoreSets();
 })
 
+//listens for click on view high scores heading to call the high scores page to display if clicked
 viewHighScoresEl.addEventListener("click", viewHighScores);
 
+//listens for click on restart button to call restartQuiz function
 restartButtonEl.addEventListener("click", restartQuiz);
 
-// //call startQuiz function on click
+//listens for click on start button to call startQuiz function
 startButtonEl.addEventListener("click", startQuiz);
 
 

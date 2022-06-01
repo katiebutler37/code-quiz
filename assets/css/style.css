@@ -1,3 +1,4 @@
+/* GENERAL STYLING*/
 :root {
     --primary-color: whitesmoke;
     --secondary-colour: rgb(77, 4, 167);
@@ -17,6 +18,7 @@ body {
     background-color: var(--primary-color);
 }
 
+/* HEADER STYLING */
 header {
     display: flex;
     justify-content: space-between;
@@ -32,6 +34,7 @@ header h4 {
     color: rgb(105, 105, 105);
 }
 
+/* MAIN SECTION STYLING */
 section {
     display: flex;
     justify-content: center;
@@ -56,6 +59,7 @@ section {
     margin-top: 60px;
 }
 
+/* QUIZ INTRO STYLING */
 .quiz-intro {
     display: block;
     justify-content: center;
@@ -74,6 +78,7 @@ section {
     margin-bottom: 5px;
 }
 
+/* BUTTON STYLING */
 .btn {
     width: max-content;
     border-radius: 5px;
@@ -95,11 +100,16 @@ section {
     width: 100%;
 }
 
+.restart-btn {
+    margin: 5px 0 0 25px;
+}
+
 .hide {
     /* will dynamically change to display: none; with javascript by adding className hide to elements*/
     display: none;
 }
 
+/* FEEDBACK TEXT STYLING */
 .feedback {
     color: gray;
     font-style: italic;
@@ -109,10 +119,8 @@ section {
     color: var(--tertiary-color);
 }
 
+/* HIGHSCORE LIST STYLING*/
 .high-score-list li {
     background-color: rgb(211, 175, 255);
 }
 
-.restart-btn {
-    margin: 5px 0 0 25px;
-}
