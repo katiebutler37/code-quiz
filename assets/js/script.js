@@ -15,7 +15,9 @@ var submitIntialsFormEl = document.querySelector(".form");
 
 //selected elements for high score
 var viewHighScoresEl = document.querySelector("#high-scores");
-var highScoresListEl = document.querySelector(".high-score-page");
+var highScoresListEl = document.querySelector(".high-score-list");
+var highScoresPageEl = document.querySelector("#high-score-page");
+var highScoreEl = document.querySelector(".score-list-item");
 var score = 0;
 var initials;
 
@@ -83,19 +85,32 @@ var currentQuestionIndex = 0;
 
 //selected elements for timer
 var countdownEl = document.querySelector("#countdown");
+var countdown; 
 //start timer with 60 s
 var timeLeft = 60;
+//stop timer at 0 s
+if (timeLeft === 0) {
+    stopTimer();
+}
 
-//starts 60 second timer on startGame button click
-var countdown = setInterval(function() {
+//function to start game, that will lead to first question on click
+var startGame = function() {
+    //starts 60 second timer on startGame button click
+        countdown = setInterval(function() {
         //decrement timer...
         timeLeft--;
         countdownEl.textContent = "0:" + timeLeft;
-        if (timeLeft === 0) {
-            stopTimer();
-        }
         //...once per second
     }, 1000); 
+    //calls countdown function to start timer
+    setInterval(countdown);
+    //start question index at 0
+    currentQuestionIndex = 0;
+    //change display from intro to questions
+    quizIntroEl.classList.add("hide");
+    questionContainerEl.classList.remove("hide");
+    nextQuestion();
+};
 
 //stops timer and goes to endQuiz sequence 
 function stopTimer() {
@@ -110,18 +125,6 @@ function stopTimer() {
 //removes 5 seconds off timer for every incorrect answer
 function decreaseTimer() {
     timeLeft = timeLeft - 5;
-};
-
-//function to start game, that will lead to first question on click
-var startGame = function() {
-    //calls countdown function to start timer
-    setInterval(countdown);
-    //start question index at 0
-    currentQuestionIndex = 0;
-    //change display from intro to questions
-    quizIntroEl.classList.add("hide");
-    questionContainerEl.classList.remove("hide");
-    nextQuestion();
 };
 
 //clears answer and question text content before next object in the questions array is loaded
@@ -149,23 +152,26 @@ var nextQuestion = function() {
             answerButtonEl.textContent = questions[currentQuestionIndex].answers[i]; 
             answersEl.appendChild(answerButtonEl);
             answerButtonEl.addEventListener("click", selectAnswer);
-            console.log(answerButtonEl);
         } 
 };
 
+//function to end quiz when the end of the questions array is reached
 var endQuiz = function() {
     console.log ("quiz over")
+    //get rid of content still displaying on browser to make room for other content
     feedbackEl.textContent = "";
     questionContainerEl.classList.add("hide");
+    //stop timer
     clearInterval(countdown);
+        //will store this value score later to keep it with initials 
         score = correctAnswers.length;
-        //scores.push(score);
-        //localStorage.setItem("score", JSON.stringify(scores));
     questionContainerEl.classList.add("hide");
     quizOutroEl.classList.remove("hide");
+    //insert final score into existing HTML content for the quiz outro
     scoreEl.textContent = score + "/" + questions.length + ".";
 };
 
+//function to provide feedback if the selectedAnswer is correct
 var correctFeedback = function() {
     console.log("correct"); 
     correctAnswers.push("1");
@@ -178,8 +184,10 @@ var correctFeedback = function() {
     cardContentEl.appendChild(feedbackEl);
 };
 
+//function to provide feedback if the selectedAnswer is wrong...
 var wrongFeedback = function() {
     console.log("wrong"); 
+    //...and take 5 s off the clock!
     decreaseTimer(countdown);
     selectedAnswer.style.backgroundColor="red";
     feedbackEl.textContent = "";
@@ -189,16 +197,21 @@ var wrongFeedback = function() {
     cardContentEl.appendChild(feedbackEl);
 };
 
+//function to manage which button is clicked, grab it's value and compare
 var selectAnswer = function(event) {
     selectedAnswer = event.target;
     console.log(currentQuestionIndex);
     console.log(selectedAnswer.value);
     console.log(questions.length);
+        //if the length of the questions array (# of questions) is less than the currentQuestionIndex + 2 (because it starts at zero and increments after this function runs)...
+        //AND the answers value is correct...
         if (questions.length < currentQuestionIndex + 2 && selectedAnswer.value == questions[currentQuestionIndex].correct) {
             correctFeedback();
             stopTimer();
+            //...end the Quiz (after a delay long enough to display the feedback)
             setTimeout(endQuiz, 500);
         }
+        //or if were out of questions
         else if (questions.length < currentQuestionIndex + 2) {
             wrongFeedback();
             stopTimer();
@@ -238,30 +251,43 @@ var viewHighScores = function(event) {
 var displayScoreSet = function() {
     var scoreSet = JSON.parse(localStorage.getItem("score-set"))
     console.log(scoreSet);
-    if (initials && score !== null) {
-    scoreSet.forEach(function(){
-    highScoreEl = document.createElement("li");
-    highScoreEl.innerHTML = "<h4>" + initials + " -- " + score + "</h4>";
-    highScoresListEl.append(highScoreEl);
+    scoreSet.sort((a, b) => {
+        return b.score - a.score;
     });
-    localStorage.getItem("initials");
-    localStorage.getItem("score");
-}
+    var html ="";
+    for (i=0; i < scoreSet.length; i++) {
+        if (i>=5) {
+            break;
+        }
+        html += "<li class='score-list-item'>" + scoreSet[i].savedInitials + " -- " + scoreSet[i].savedScore + "</li>"
+    }
+
+
+    console.log(scoreSet);
+    // if (initials && score !== null) {
+    //scoreSet.forEach(function(){
+    //highScoreEl = document.createElement("li");
+    highScoresListEl.innerHTML = html;
+    // highScoresListEl.append(highScoreEl);
+  //  });
+    // localStorage.getItem("initials");
+    // localStorage.getItem("score");
 };
 
 document.getElementById('save-initials').addEventListener('click', function(event) {
     event.preventDefault();
-    initials = document.querySelector("input[name='initials']").value;
+    initials = document.querySelector("input[name='initials']").value || "anonymous";
     score = correctAnswers.length;
     var scoreSet = JSON.parse(localStorage.getItem("score-set")) || [];
     var savedScoreSet = {
-         savedScore: score,
+            savedScore: score,
             savedInitials: initials
             };
             scoreSet.push(savedScoreSet);
             localStorage.setItem("score-set", JSON.stringify(scoreSet));
+            
     quizOutroEl.classList.add("hide");
-    highScoresListEl.classList.remove("hide");
+    highScoresPageEl.classList.remove("hide");
     displayScoreSet();
 })
 
