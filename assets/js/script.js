@@ -252,7 +252,7 @@ var displayScoreSet = function() {
     var scoreSet = JSON.parse(localStorage.getItem("score-set"))
     console.log(scoreSet);
     scoreSet.sort((a, b) => {
-        return b.score - a.score;
+        return b.savedScore - a.savedScore;
     });
     var html ="";
     for (i=0; i < scoreSet.length; i++) {
@@ -261,17 +261,8 @@ var displayScoreSet = function() {
         }
         html += "<li class='score-list-item'>" + scoreSet[i].savedInitials + " -- " + scoreSet[i].savedScore + "</li>"
     }
-
-
     console.log(scoreSet);
-    // if (initials && score !== null) {
-    //scoreSet.forEach(function(){
-    //highScoreEl = document.createElement("li");
     highScoresListEl.innerHTML = html;
-    // highScoresListEl.append(highScoreEl);
-  //  });
-    // localStorage.getItem("initials");
-    // localStorage.getItem("score");
 };
 
 document.getElementById('save-initials').addEventListener('click', function(event) {
